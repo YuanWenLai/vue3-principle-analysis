@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue3 render</title>
+</head>
+<body>
+    <div id="app">test</div>
+</body>
+<script src="./render.js"></script>
+<script>
+    const el = document.getElementById('app')
+    console.log("🚀 ~ file: index.htm:15 ~ el:", el)
+    // 函数返回vnode
+    // const MyComponent = function() {
+    //     return {
+    //         tag: 'div',
+    //         props: {
+    //             onClick: () => alert('hello component!')
+    //         },
+    //         children: 'click component'
+    //     }
+    // }
+    // 对象返回vnode
+    const MyComponent = {
+        render() {
+            return {
+                tag: 'div',
+                props: {
+                    onClick: () => alert('hello render component!')
+                },
+                children: 'click render component'
+            }
+        }
+    }
+    const vnode = {
+        tag: MyComponent,
+        // props: {
+        //     onClick: () => alert('hello world!')
+        // },
+        // children: 'click me'
+    }
+
+    
+
+    renderer(vnode, el)
+</script>
+</html>
