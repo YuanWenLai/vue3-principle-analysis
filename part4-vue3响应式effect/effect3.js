@@ -1,6 +1,6 @@
 const bucket = new WeakMap() 
 
-
+let activeEffect 
 function effect(fn) {
     activeEffect = fn
     fn()
@@ -59,14 +59,24 @@ function trigger(target, key) {
 
 effect(
     () => {
-        console.log("🚀 ~ file: effect1.js:25 ~ effect ~ obj.text:", obj.text)
-        console.log("🚀 ~ file: effect1.js:25 ~ effect ~ obj.text:", obj.ok)
+        console.log('执行副作用')
         document.body.innerText = obj.ok ? obj.text : 'bu ok'
     }
 )
 
 
 setTimeout(() => {
-    obj.text = 'hello vue3 !!'
     obj.ok = false
 }, 2000)
+
+setTimeout(() => {
+    obj.text = 'text'
+}, 3000)
+
+/**
+ * 共执行3次
+ * 初始化一次
+ * 修改ok值一次
+ * 修改text值一次
+ * 但是ok值为false，没有必要再执行text的effect，因此要优化
+ * **/ 
