@@ -6,24 +6,6 @@ function effect(fn) {
     fn()
 }
 
-
-const data = {
-    ok: true,
-    text: 'hello world!'
-}
-
-const obj = new Proxy(data, {
-    get(target, key) {
-        track(target, key)
-        return target[key]
-    },
-
-    set(target, key, newVal) {
-        target[key] = newVal
-        trigger(target, key)
-    }
-})
-
 // get拦截函数，track 函数追踪变化
 function track(target, key) {
     if(!activeEffect) return target[key]
@@ -55,6 +37,24 @@ function trigger(target, key) {
     const effects = depsMap.get(key)
     effects && effects.forEach(fn => fn())
 }
+
+
+const data = {
+    ok: true,
+    text: 'hello world!'
+}
+
+const obj = new Proxy(data, {
+    get(target, key) {
+        track(target, key)
+        return target[key]
+    },
+
+    set(target, key, newVal) {
+        target[key] = newVal
+        trigger(target, key)
+    }
+})
 
 
 effect(

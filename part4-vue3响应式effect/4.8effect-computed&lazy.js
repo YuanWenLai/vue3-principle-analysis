@@ -51,7 +51,9 @@ function cleanup(effectFn) {
 
 // get拦截函数，track 函数追踪变化
 function track(target, key) {
-    if(!activeEffect) return target[key]
+    console.log("🚀 ~ file: 4.8effect-computed&lazy.js:54 ~ track ~ target:", target)
+    // const temp = JSON.parse(JSON.stringify(target))
+    // if(!activeEffect) temp[key]
 
     // 根据target取出depsMap
     let depsMap = bucket.get(target)
@@ -112,9 +114,11 @@ function computed(getter) {
     const effectFn = effect(getter, {
         lazy: true,
         scheduler() {
+            // if(!dirty) {
+            //     dirty = true
+            //     trigger(obj, 'value')
+            // }
             dirty = true
-
-            trigger(obj, 'value')
         }
     })
 
@@ -126,6 +130,7 @@ function computed(getter) {
                 dirty = false
             }
             track(obj, 'value')
+            
             return value
         }
     }
@@ -193,14 +198,16 @@ const sumRes = computed(() =>{
     return obj.foo + obj.bar
 })
 
-effect(() => {
-    console.log('111',sumRes.value)
-})
-effect(() => {
-    console.log(sumRes.value)
-})
+// effect(() => {
+//     console.log('111',sumRes.value)
+// })
+// effect(() => {
+//     console.log('11,',sumRes.value)
+// })
+
+console.log(sumRes.value)
 
 obj.foo ++
-// obj.foo ++
+obj.foo ++
 
-// console.log(sumRes.value)
+console.log(sumRes.value)

@@ -141,10 +141,10 @@ effect(
     {
         scheduler(fn) {
             // todo
-            // setTimeout(fn)
+            setTimeout(fn)
             // 每次调用时，将副作用添加到队列
-            jobQueue.add(fn)
-            flushJob() // 刷新队列
+            // jobQueue.add(fn)
+            // flushJob() // 刷新队列
         }
     }
 )
